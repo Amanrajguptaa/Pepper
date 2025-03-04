@@ -123,7 +123,7 @@ const HeroSection = () => {
         }}
         className="flex-col  space-y-6 w-full overflow-hidden"
       >
-        <div className="text-center text-gray text-[85px] leading-22 font-bold">
+        <div className="text-center text-gray text-8xl leading-22 font-bold">
           Your Pizza Party
           <br />
           Starts Here!
