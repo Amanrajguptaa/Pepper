@@ -4,11 +4,13 @@ import "dotenv/config"
 import cookieParser from "cookie-parser"
 import connectDB from "./db/index.js";
 import userRouter from "./routes/user.route.js";
+import orderRouter from "./routes/order.route.js";
 import connectCloudinary from "./utils/cloudinary.js";
 
 const app = express();
 
 const port = process.env.PORT || 4000
+
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
@@ -30,4 +32,5 @@ connectDB().then(()=>{
     console.log("MONGO db connection failed !!! ", err);
 })
 
-app.use('/api/user',userRouter) 
+app.use('/api/user',userRouter)
+app.use('/api/order',orderRouter) 
