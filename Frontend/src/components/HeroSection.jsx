@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "motion/react";
 const HeroSection = () => {
   return (
-    <div className="max-h-screen w-full flex justify-center items-start relative mt-20 mb-40">
+    <div className="max-h-screen w-full flex justify-center items-start relative mt-24 mb-40">
       <motion.img
       initial={{
           scale: 0.5,
@@ -123,17 +123,17 @@ const HeroSection = () => {
         }}
         className="flex-col  space-y-6 w-full overflow-hidden"
       >
-        <div className="text-center text-gray text-[85px] leading-22 font-bold">
+        <div className="text-center text-gray text-5xl md:text-[85px] md:leading-22 font-bold">
           Your Pizza Party
           <br />
           Starts Here!
         </div>
-        <div className="text-center text-xl">
+        <div className="text-center text-xs md:text-xl">
           Gather your friends and family and enjoy the best pizza in town.
           <br /> Freshly made and delivered hot!
         </div>
         <div className="w-full flex justify-center items-center">
-          <button className="bg-pink-red py-4 px-8 rounded-[50px]  text-white text-xl font-bold">
+          <button className="bg-pink-red py-2 md:py-4 px-6 md:px-8 rounded-[50px]  text-white text-xl font-bold">
             View Our Menu
           </button>
         </div>
@@ -152,7 +152,7 @@ const HeroSection = () => {
         duration: 1.0,
         ease: "easeInOut",
       }}
-         className="flex justify-center items-center -mt-8">
+         className="flex justify-center items-center md:-mt-8">
           <img
            className="relative" src="/assets/heroPizza.png" alt="" />
         </motion.div>

@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import { ArrowRight } from "lucide-react";
 
-const AnimCards = ({title,color,img}) => {
+const PlaceCard = ({ title, color, img }) => {
   return (
     <div className="container w-[150px] h-[150px] md:w-[220px] md:h-[220px] relative rounded-3xl overflow-hidden group">
       <div className="imgdiv w-full h-full relative bg-cover bg-center">
@@ -12,7 +12,7 @@ const AnimCards = ({title,color,img}) => {
         />
         <div
           className={`absolute inset-0`}
-          style={{ backgroundColor: `${color}`}}
+          style={{ backgroundColor: `${color}` }}
         ></div>
       </div>
       <div className="textdiv absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -31,6 +31,6 @@ const AnimCards = ({title,color,img}) => {
       </div>
     </div>
   );
-}
+};
 
-export default AnimCards
+export default PlaceCard;

@@ -3,7 +3,9 @@ import HeroSection from "../components/HeroSection";
 import LabelledSection from "../components/LabelledSection";
 import HeroCardSection from "../components/HeroCardSection";
 import CarouselSection from "../components/CarouselSection";
-import AnimCardsSec from "../components/AnimCardsSec";
+import PlaceSection from "../components/PlaceSection";
+import Accordian from "../components/Accordian";
+import NewsLetter from "../components/NewsLetter";
 
 const labelledSectionData = [
   {
@@ -44,9 +46,10 @@ const Home = () => {
       <div className="mt-52">
         <LabelledSection data={newLabelledSectionData} />
       </div>
-      <AnimCardsSec/>
+      <PlaceSection/>
+      <Accordian/>
       <CarouselSection />
-    {/* just for checking if all is working good */}
+      <NewsLetter/>
     </div>
   );
 };

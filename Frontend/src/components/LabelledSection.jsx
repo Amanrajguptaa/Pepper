@@ -3,7 +3,7 @@ import LabelCards from './LabelCards'
 
 const LabelledSection = ({ data }) => {
   return (
-    <div className='bg-light-pink flex flex-col py-10 space-y-10 -mt-44 px-6 md:px-10'>
+    <div className='bg-light-pink flex flex-col py-10 space-y-10 -mt-44 px-6 md:px-0 z-30'>
       <div className='text-center space-y-6 '>
         <div className='font-bold text-3xl sm:text-4xl md:text-5xl text-gray'>Fan Favorites</div>
         <div className='text-lg sm:text-xl text-gray'>
@@ -11,7 +11,7 @@ const LabelledSection = ({ data }) => {
         </div>
       </div>
 
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto'>
         {data?.map((item, index) => (
           <LabelCards key={index} image={item?.image} />
         ))}
