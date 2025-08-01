@@ -3,7 +3,7 @@ import HeroCard from "./HeroCard";
 
 const HeroCardSection = () => {
   return (
-    <div className="mt-20 px-6 md:px-10 w-full">
+    <div className="mt-20 px-6 md:px-0 max-w-6xl mx-auto w-full">
       <div className="text flex flex-col items-center gap-6 text-center">
         <h1 className="text-3xl sm:text-5xl font-bold">Hot Pizza, Hotter Deals</h1>
         <p className="text-lg sm:text-2xl">

@@ -8,7 +8,7 @@ const Dropdown = ({data}) => {
   return (
     <>
       <div>
-        <div className="flex items-center justify-between py-7 px-6  bg-white rounded-3xl">
+        <div className="flex items-start justify-between p-7  bg-white rounded-3xl border border-gray-200">
           <h1 className="text-xl font-bold capitalize">{data?.title}</h1>
           <ChevronDown
             size={25}

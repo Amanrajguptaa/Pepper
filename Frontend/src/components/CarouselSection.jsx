@@ -7,7 +7,7 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
 const CarouselSection = () => {
   return (
-    <div className="relative ">
+    <div className="relative">
     <div className="overflow-hidden bg-gray px-6 md:px-10  ">
       <Carousel slides={SLIDES} options={OPTIONS} />
     </div>
