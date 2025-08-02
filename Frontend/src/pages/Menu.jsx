@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { menuData } from "../data/menuData.js";
+import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { ShopContext } from "../context/store.jsx";
 
 const menuCategories = [
   { name: "All", image: "https://framerusercontent.com/images/QlVQ0YNHzBhb2nPfKPz2btr7A.png?scale-down-to=1024" },
@@ -12,7 +13,7 @@ const menuCategories = [
 
 const Menu = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-
+  const {menuData} = useContext(ShopContext)
   const selectedCategory = menuCategories[selectedIndex].name;
 
   const filteredMenu =
@@ -50,7 +51,8 @@ const Menu = () => {
 
       <div className="mt-14 space-y-10">
         {filteredMenu.map((item, index) => (
-          <div key={index} className="border-b-2 border-dashed pb-10">
+          <Link key={index} onClick={()=>scrollTo(0,0)} to={`/product/${item.id}`}>
+          <div className="cursor-pointer border-b-2 border-dashed pb-10">
             <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
               <img
                 src={item.image}
@@ -100,6 +102,7 @@ const Menu = () => {
               
             </div>
           </div>
+          </Link>
         ))}
       </div>
     </div>
