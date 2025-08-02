@@ -1,0 +1,338 @@
+import axios from "axios";
+import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { ShopContext } from "../context/store";
+
+const Auth = ({ isAuthVisible, setIsAuthVisible }) => {
+  const [activeTab, setActiveTab] = useState("login");
+
+  if (!isAuthVisible) {
+    return null;
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/70 bg-opacity-80 backdrop-blur-sm flex items-center justify-center px-6 md:px-0 z-100">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-lg relative overflow-hidden">
+        <button
+          onClick={() => setIsAuthVisible(false)}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <div className="p-6">
+          {activeTab === "login" ? (
+            <LoginForm setActiveTab={setActiveTab} />
+          ) : (
+            <SignupForm setActiveTab={setActiveTab} />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const LoginForm = ({ setActiveTab }) => {
+  const { backendUrl, setToken } = useContext(ShopContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${backendUrl}/api/user/login`, {
+        email,
+        password,
+      });
+      toast.success("Logged In Successfully");
+      localStorage.setItem("token", response.data.token);
+      setToken(response.data.token);
+      window.location.reload();
+    } catch (error) {
+      toast.error("Failed to Log In");
+    }
+  };
+
+  const googleAuth = () => {
+    try {
+      window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
+      navigate("/");
+    } catch (error) {
+      console.error("Google Auth error:", error);
+      toast.error("Failed to initiate Google authentication.");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="text-center mb-6">
+        <h1 className="text-2xl font-medium text-gray-800">Login</h1>
+        <p className="text-gray-500 mt-2">Please sign in to continue</p>
+      </div>
+
+      <div className="space-y-4">
+        <div className="relative">
+          <input
+            type="email"
+            placeholder="Email id"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border border-gray-300 rounded-full py-3 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+          <div className="absolute left-4 top-3.5 text-gray-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="relative">
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border border-gray-300 rounded-full py-3 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+          <div className="absolute left-4 top-3.5 text-gray-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div className="text-right">
+          <a href="#" className="text-primary text-sm">
+            Forgot password?
+          </a>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full cursor-pointer bg-pink-red hover:bg-pink-red/50  text-white py-3 rounded-full font-medium transition duration-200"
+        >
+          Login
+        </button>
+        <div className="flex items-center gap-2 my34">
+          <div className="h-px bg-gray-300 flex-1" />
+          <span className="text-sm text-gray-500">OR</span>
+          <div className="h-px bg-gray-300 flex-1" />
+        </div>
+
+        <button
+          type="button"
+          onClick={googleAuth}
+          className="cursor-pointer w-full flex items-center justify-center gap-3 border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 rounded-full font-medium transition duration-200"
+        >
+          <img
+            src="https://www.svgrepo.com/show/475656/google-color.svg"
+            alt="Google"
+            className="h-5 w-5"
+          />
+          Sign in with Google
+        </button>
+
+        <div className="text-center text-gray-500 text-sm mt-4">
+          Don't have an account?{" "}
+          <button
+            type="button"
+            onClick={() => setActiveTab("signup")}
+            className="text-primary cursor-pointer"
+          >
+            Sign up
+          </button>
+        </div>
+      </div>
+    </form>
+  );
+};
+
+const SignupForm = ({ setActiveTab }) => {
+  const { backendUrl, setToken } = useContext(ShopContext);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const googleAuth = () => {
+    try {
+      window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`;
+      navigate("/");
+    } catch (error) {
+      console.error("Google Auth error:", error);
+      toast.error("Failed to initiate Google authentication.");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${backendUrl}/api/user/register`, {
+        name,
+        email,
+        password,
+      });
+      toast.success("Signed In Successfully");
+      console.log(response);
+
+      localStorage.setItem("token", response.data.token);
+      setToken(response.data.token);
+      window.location.reload();
+    } catch (error) {
+      toast.error("Error Signing In");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="text-center mb-6">
+        <h1 className="text-2xl font-medium text-gray-800">Sign Up</h1>
+        <p className="text-gray-500 mt-2">Create an account to get started</p>
+      </div>
+
+      <div className="space-y-4">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full border border-gray-300 rounded-full py-3 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+          <div className="absolute left-4 top-3.5 text-gray-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div className="relative">
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border border-gray-300 rounded-full py-3 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+          <div className="absolute left-4 top-3.5 text-gray-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+              <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="relative">
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border border-gray-300 rounded-full py-3 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+          <div className="absolute left-4 top-3.5 text-gray-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full  bg-pink-red hover:bg-pink-red/50 cursor-pointer text-white py-3 rounded-full font-medium transition duration-200"
+        >
+          Sign Up
+        </button>
+        <div className="flex items-center gap-2 my-3">
+          <div className="h-px bg-gray-300 flex-1" />
+          <span className="text-sm text-gray-500">OR</span>
+          <div className="h-px bg-gray-300 flex-1" />
+        </div>
+
+        <button
+          type="button"
+          onClick={googleAuth}
+          className="cursor-pointer w-full flex items-center justify-center gap-3 border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 rounded-full font-medium transition duration-200"
+        >
+          <img
+            src="https://www.svgrepo.com/show/475656/google-color.svg"
+            alt="Google"
+            className="h-5 w-5"
+          />
+          Sign Up with Google
+        </button>
+
+        <div className="text-center text-gray-500 text-sm mt-4">
+          Already have an account?{" "}
+          <button
+            type="button"
+            onClick={() => setActiveTab("login")}
+            className="text-primary cursor-pointer"
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    </form>
+  );
+};
+
+export default Auth;
