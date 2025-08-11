@@ -31,9 +31,27 @@ const userSchema = new mongoose.Schema({
         default:"0000000000"
     },
     address:{
-        type:Object,
-        default:{}
-    },   
+        street: { type: String, default: "" },
+        city: { type: String, default: "" },
+        state: { type: String, default: "" },
+        zip: { type: String, default: "" },
+        country: { type: String, default: "" }
+    },
+  cartData: [
+  {
+    productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "product",
+      required: true
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      min: 1,
+      default: 1
+    }
+  }
+]
 })
 
 
